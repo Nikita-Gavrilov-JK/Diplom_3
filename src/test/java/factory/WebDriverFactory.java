@@ -14,8 +14,14 @@ public class WebDriverFactory {
 
         ChromeOptions options = new ChromeOptions();
         if ("yandex".equals(browser)) {
-            options.setBinary("drivers/yandexdriver.exe");
+            // путь к YandexDriver.exe
+            System.setProperty("webdriver.chrome.driver", "drivers/yandexdriver.exe");
+            // настоящий бинарник Yandex.Browser
+            options.setBinary("C:\\Users\\nikga\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
+        } else {
+            System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         }
+
         return new ChromeDriver(options);
     }
 }

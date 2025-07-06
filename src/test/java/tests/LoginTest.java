@@ -5,6 +5,7 @@ import base.BaseTest;
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,6 +34,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Вход по кнопке «Войти в аккаунт» на главной")
     public void loginFromMainButton() {
         new HomePage(driver)
                 .open()
@@ -41,11 +43,11 @@ public class LoginTest extends BaseTest {
                 .fillPassword(password)
                 .clickLogin();
 
-        // проверяем уже сразу
         assertTrue(driver.getCurrentUrl().contains("/account"));
     }
 
     @Test
+    @DisplayName("Вход через кнопку «Личный кабинет»")
     public void loginFromAccountButton() {
         LoginPage login = new HomePage(driver)
                 .open()
@@ -60,6 +62,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Вход через кнопку в форме регистрации")
     public void loginFromRegisterForm() {
         RegistrationPage reg = new HomePage(driver)
                 .open()
@@ -70,12 +73,11 @@ public class LoginTest extends BaseTest {
                 .fillEmail(email)
                 .fillPassword(password)
                 .clickLogin();
-//        new WebDriverWait(driver, Duration.ofSeconds(5))
-//                .until(ExpectedConditions.urlContains("/account"));
         assertTrue(driver.getCurrentUrl().contains("/account"));
     }
 
     @Test
+    @DisplayName("Вход через кнопку в форме восстановления пароля")
     public void loginFromRecoveryForm() {
         ForgotPasswordPage forgot = new HomePage(driver)
                 .open()
@@ -86,8 +88,6 @@ public class LoginTest extends BaseTest {
                 .fillEmail(email)
                 .fillPassword(password)
                 .clickLogin();
-//        new WebDriverWait(driver, Duration.ofSeconds(5))
-//                .until(ExpectedConditions.urlContains("/account"));
         assertTrue(driver.getCurrentUrl().contains("/account"));
     }
 

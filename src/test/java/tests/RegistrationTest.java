@@ -5,7 +5,6 @@ import base.BaseTest;
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import pageobject.AccountPage;
 import pageobject.HomePage;
 import pageobject.LoginPage;
 import pageobject.RegistrationPage;
@@ -18,6 +17,7 @@ public class RegistrationTest extends BaseTest {
     private String token;
 
     @Test
+    @DisplayName("Проверка успешной регистрации.")
     public void successfulRegistration() {
         String email = System.currentTimeMillis() + "@example.com";
         String password = "password123";
@@ -32,19 +32,13 @@ public class RegistrationTest extends BaseTest {
                 .fillPassword(password)
                 .clickRegisterAndGoToLogin();
 
-        //System.out.println(driver.getCurrentUrl());
         assertTrue(driver.getCurrentUrl().contains("/login"));
-
-//        AccountPage account = afterRegLogin
-//                .fillEmail(email)
-//                .fillPassword(password)
-//                .clickLogin();
-//        assertTrue(driver.getCurrentUrl().contains("/account"));
 
         // Получаем токен через API для удаления пользователя
         token = ApiBaseFun.loginUser(email, password);
     }
     @Test
+    @DisplayName("Проверка для некорректного пароля.")
     public void invalidPassword() {
         String email = "user" + System.currentTimeMillis() + "@example.com";
 
@@ -59,7 +53,6 @@ public class RegistrationTest extends BaseTest {
 
         assertEquals("Некорректный пароль", reg.getIncorrectPasswordError());
     }
-//Некорректный пароль
 
     @AfterEach
     public void cleanup() {

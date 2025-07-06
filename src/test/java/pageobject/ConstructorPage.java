@@ -19,35 +19,40 @@ public class ConstructorPage extends BasePage {
     @Step("Перейти на вкладку Булки")
     public ConstructorPage openBuns() {
         driver.findElement(bunsTab).click();
-        waitForTab("Булки");
+        waitUntilActive(bunsTab);
         return this;
     }
 
     @Step("Перейти на вкладку Соусы")
     public ConstructorPage openSauces() {
         driver.findElement(saucesTab).click();
-        waitForTab("Соусы");
+        waitUntilActive(saucesTab);
         return this;
     }
 
     @Step("Перейти на вкладку Начинки")
     public ConstructorPage openFillings() {
         driver.findElement(fillingsTab).click();
-        waitForTab("Начинки");
+        waitUntilActive(fillingsTab);
         return this;
     }
+
     @Step("Проверить, что вкладка {tabName} активна")
     public boolean isTabActive(String tabName) {
-        By active = By.xpath(
-                "//div[contains(@class,'tab_tab') and contains(@class,'tab_tab_type_current')]//span[text()='" + tabName + "']"
+        By tabContainer = By.xpath(
+                "//div[contains(@class,'tab_tab')][.//span[text()='" + tabName + "']]"
         );
-        return !driver.findElements(active).isEmpty();
+        String classes = driver.findElement(tabContainer).getAttribute("class");
+        return classes.contains("tab_tab_type_current");
     }
 
-    private void waitForTab(String tabName) {
+    private void waitUntilActive(By tabLocator) {
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//div[contains(@class,'tab_tab') and contains(@class,'tab_tab_type_current')]//span[text()='" + tabName + "']")
+                .until(ExpectedConditions.attributeContains(
+                        By.xpath("//div[contains(@class,'tab_tab')][.//span[text()='"
+                                + driver.findElement(tabLocator).getText() + "']]"),
+                        "class",
+                        "tab_tab_type_current"
                 ));
     }
 }

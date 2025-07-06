@@ -23,6 +23,7 @@
         <allure.maven.version>2.12.0</allure.maven.version>
 
         <browser>chrome</browser>
+        <aspectj.version>1.9.21</aspectj.version>
     </properties>
 
     <dependencies>
@@ -70,13 +71,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <version>3.2.3</version>
                 <configuration>
+                    <!-- передаём в тесты переменную browser: по умолчанию chrome, можно переопределить -Dbrowser=yandex -->
                     <systemPropertyVariables>
-                        <!-- по умолчанию chrome, можно переопределить -Dbrowser=yandex -->
                         <browser>${browser}</browser>
-                        <!-- если нужен явный путь к chromedriver -->
                     </systemPropertyVariables>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                    <!-- указываем, куда писать Allure-results -->
+                    <systemProperties>
+                        <property>
+                            <name>allure.results.directory</name>
+                            <value>${project.build.directory}/allure-results</value>
+                        </property>
+                    </systemProperties>
                 </configuration>
             </plugin>
 

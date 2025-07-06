@@ -41,8 +41,9 @@ public class HomePage extends BasePage {
     }
 
     @Step("Нажать Конструктор")
-    public void clickConstructor() {
+    public ConstructorPage  clickConstructor() {
         driver.findElement(constructorTab).click();
+        return new ConstructorPage(driver);
     }
 
     @Step("Клик по логотипу Stellar Burgers")

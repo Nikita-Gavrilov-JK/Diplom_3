@@ -2,15 +2,18 @@ package tests;
 
 import api.ApiBaseFun;
 import base.BaseTest;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import pageobject.AccountPage;
-import pageobject.ConstructorPage;
 import pageobject.HomePage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(AllureJunit5.class)
 public class NavigationTest extends BaseTest {
 
     private String token;
@@ -23,6 +26,7 @@ public class NavigationTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Проверь переход по клику на «Личный кабинет»")
         public void navigateToAccount() {
         new HomePage(driver)
                 .open()
@@ -34,6 +38,7 @@ public class NavigationTest extends BaseTest {
             assertTrue(driver.getCurrentUrl().contains("/account"));
     }
     @Test
+    @DisplayName("Проверь переход по клику на «Конструктор» и на логотип Stellar Burgers.")
     public void navigateToConstructorAndLogoFromAccount() {
         AccountPage account = new HomePage(driver)
                 .open()
